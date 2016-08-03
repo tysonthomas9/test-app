@@ -1,5 +1,26 @@
 # Test-App
 
+## Initial Setup
+
+Install the necessary packages
+
+```
+npm install
+```
+## Run the Server
+```
+npm start
+```
+or
+```
+DB_URL='postgres://username:password@host:port/db' npm start
+```
+
+## Run the tests
+```
+npm test
+```
+
 ## API Endpoints
 
 #### GET /topActiveUsers?page={pageNumber}
