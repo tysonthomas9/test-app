@@ -20,23 +20,25 @@
         margin: 0;
       }
 
+      #top-container {
+        margin: 10px;
+      }
       #b-sidebar {
         background-color:blue;
-        width: 300px;
-        margin: 20px 0px 0px 10px;
-        float: right;
+        width: 100%;
       }
       #a-content {
         background-color:green;
-        width: 500px;
-        margin: 20px 10px 20px 0px;
-        float: left;
+        width: 100%;
+        margin: 10px 0 0 0;
       }
       #d-left-container {
         background-color:yellow;
+        margin: 10px;
       }
       #d-right-container {
         background-color:yellow;
+        margin: 10px;
       }
       #c-footer {
         background-color:orange;
@@ -50,6 +52,18 @@
       }
 
       @media screen and (min-width:840px) {
+        #b-sidebar {
+          background-color:blue;
+          width: 300px;
+          margin: 20px 0px 0px 10px;
+          float: right;
+        }
+        #a-content {
+          background-color:green;
+          width: 500px;
+          margin: 20px 10px 20px 0px;
+          float: left;
+        }
         #top-container {
           margin: auto;
           width: 820px;
@@ -66,39 +80,16 @@
           float: right;
         }
       }
-      @media screen and (max-width:840px) {
-        #top-container{
-          margin: 10px;
-        }
-        #a-content{
-          width: 100%;
-          margin: 10px 0 0 0;
-        }
-        #b-sidebar{
-          width: 100%;
-          margin: 0px
-        }
+
+      @media screen and (min-width:450px) and (max-width:839px) {
         #d-left-container{
-          margin: 10px 0px 10px 10px;
+          margin-right: 0px;
           width: 46%;
           float: left;
         }
         #d-right-container {
-          margin: 10px;
           width: 46%;
           float: right;
-        }
-      }
-      @media screen and (max-width: 450px) {
-        #d-left-container{
-          margin: 10px;
-          float: none;
-          width: initial;
-        }
-        #d-right-container {
-          margin: 10px;
-          float: none;
-          width: initial;
         }
       }
     </style>
