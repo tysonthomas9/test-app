@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Demo app</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Demo application">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style type="text/css">
+      body,html
+      {
+       width: 100%;
+       height: 100%;
+       overflow: hidden;
+      }
+      body {
+        margin: 0;
+      }
+      h1 {
+        padding: 10px;
+      }
+
+      #top-container {
+        margin: auto;
+        width: 820px;
+      }
+      #b-sidebar {
+        background-color:blue;
+        width: 300px;
+        margin: 20px 0px 0px 10px;
+        float: right;
+      }
+      #a-content {
+        background-color:green;
+        width: 500px;
+        margin: 20px 10px 0px 0px;
+        float: left;
+      }
+      #d-left-container {
+        background-color:yellow;
+        margin: 20px 10px 20px 20px;
+        width: 220px;
+        float: left;
+      }
+      #d-right-container {
+        background-color:yellow;
+        margin: 20px 20px 20px 10px;
+        width: 220px;
+        float: right;
+      }
+      #c-footer {
+        background-color:orange;
+        height: 100%;
+      }
+      .clear {
+        clear: both;
+      }
+      .d-text {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="top-container">
+      <div id="b-sidebar">
+        <h1>B</h1>
+      </div>
+
+      <div id="a-content">
+        <h1>A</h1>
+        <div id="d-left-container">
+          <h1 class="d-text">D</h1>
+        </div>
+        <div id="d-right-container">
+          <h1 class="d-text">D</h1>
+        </div>
+        <br class="clear"/>
+      </div>
+
+      <br class="clear"/>
+    </div>
+
+    <footer id="c-footer">
+      <h1>C</h1>
+    </footer>
+
+  </body>
+</html>
