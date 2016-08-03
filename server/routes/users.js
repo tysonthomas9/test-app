@@ -1,20 +1,20 @@
 var express = require('express');
 var router = express.Router();
 
-var pg = require('pg');
+var pgp = require('pg-promise')({});
 const conString = 'postgres://postgres@localhost/testdb1'
+var db = pgp(conString);
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  pg.connect(conString, function (err, client, done) {
-    if (err) throw err;
+    var userId = parseInt(req.query.id);
 
     //execute the query
-    client.query('SELECT app.id, app.created_at, app.cover_letter, list.id AS listings_id, list.name AS listings_name, list.description AS listings_description from applications AS app INNER JOIN listings AS list ON app.listing_id=list.id WHERE user_id=$1::int', [req.query.id], function (err, result) {
-      if (err) throw err;
-
+    db.any('SELECT app.id, app.created_at, app.cover_letter, list.id AS listings_id, list.name AS listings_name, list.description AS listings_description from applications AS app INNER JOIN listings AS list ON app.listing_id=list.id WHERE user_id=$1::int', [userId])
+    .then(function (result) {
       var applications = [];
-      result.rows.forEach(function(row) {
+
+      result.forEach(function(row) {
         applications.push({
           id: row.id,
           createdAt: row.created_at,
@@ -28,13 +28,10 @@ router.get('/', function(req, res, next) {
       });
 
       res.json(applications);
-
-      // disconnect the client
-      client.end(function (err) {
-        if (err) throw err;
-      });
+    })
+    .catch(function (err) {
+      return next({message: err.message});
     });
-  });
 });
 
 module.exports = router;
