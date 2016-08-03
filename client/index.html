@@ -17,12 +17,9 @@
       }
       h1 {
         padding: 10px;
+        margin: 0;
       }
 
-      #top-container {
-        margin: auto;
-        width: 820px;
-      }
       #b-sidebar {
         background-color:blue;
         width: 300px;
@@ -32,20 +29,14 @@
       #a-content {
         background-color:green;
         width: 500px;
-        margin: 20px 10px 0px 0px;
+        margin: 20px 10px 20px 0px;
         float: left;
       }
       #d-left-container {
         background-color:yellow;
-        margin: 20px 10px 20px 20px;
-        width: 220px;
-        float: left;
       }
       #d-right-container {
         background-color:yellow;
-        margin: 20px 20px 20px 10px;
-        width: 220px;
-        float: right;
       }
       #c-footer {
         background-color:orange;
@@ -56,6 +47,59 @@
       }
       .d-text {
         text-align: center;
+      }
+
+      @media screen and (min-width:840px) {
+        #top-container {
+          margin: auto;
+          width: 820px;
+        }
+
+        #d-left-container {
+          margin: 20px 10px 20px 20px;
+          width: 220px;
+          float: left;
+        }
+        #d-right-container {
+          margin: 20px 20px 20px 10px;
+          width: 220px;
+          float: right;
+        }
+      }
+      @media screen and (max-width:840px) {
+        #top-container{
+          margin: 10px;
+        }
+        #a-content{
+          width: 100%;
+          margin: 10px 0 0 0;
+        }
+        #b-sidebar{
+          width: 100%;
+          margin: 0px
+        }
+        #d-left-container{
+          margin: 10px 0px 10px 10px;
+          width: 46%;
+          float: left;
+        }
+        #d-right-container {
+          margin: 10px;
+          width: 46%;
+          float: right;
+        }
+      }
+      @media screen and (max-width: 450px) {
+        #d-left-container{
+          margin: 10px;
+          float: none;
+          width: initial;
+        }
+        #d-right-container {
+          margin: 10px;
+          float: none;
+          width: initial;
+        }
       }
     </style>
   </head>
