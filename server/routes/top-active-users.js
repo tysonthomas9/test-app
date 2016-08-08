@@ -23,48 +23,46 @@ router.get('/', function(req, res, next) {
 
     let pageNumber = parseInt(req.query.page);
     let requests = [];
+    let users;
 
     //execute the query to fetch the user details and count
-    db.any('SELECT users.id, users.created_at, users.name, ctab.count FROM users INNER JOIN (SELECT user_id, COUNT(user_id) AS "count" from applications WHERE created_at > (CURRENT_DATE - INTERVAL \'7 day\') GROUP BY user_id) AS ctab ON users.id=ctab.user_id ORDER BY users.id LIMIT 5')
-    .then(function (users) {
+    db.any('SELECT users.id, users.created_at, users.name, ctab.count FROM users INNER JOIN (SELECT user_id, COUNT(user_id) AS "count" from applications WHERE created_at > (CURRENT_DATE - INTERVAL \'7 day\') GROUP BY user_id) AS ctab ON users.id=ctab.user_id ORDER BY ctab.count DESC LIMIT 5')
+    .then(function (usersOutput) {
+      users = usersOutput;
+
       users.forEach(function(user) {
         //execute the query to fetch the user 3 last listings data
-        requests.push(db.any('SELECT app.user_id, listings.name from applications AS app INNER JOIN listings ON app.listing_id=listings.id WHERE app.user_id=$1::int AND app.created_at > (CURRENT_DATE - INTERVAL \'7 day\') ORDER BY app.created_at DESC LIMIT 3;', [user.id]));
+        var deferred = Q.defer();
+
+        db.any('SELECT listings.name from applications AS app INNER JOIN listings ON app.listing_id=listings.id WHERE app.user_id=$1::int ORDER BY app.created_at DESC LIMIT 3;', [user.id])
+        .then(function (listings) {
+          user.listings = listings;
+          deferred.resolve();
+        })
+        .catch(function (err) {
+          deferred.reject(err);
+        });
+
+        requests.push(deferred.promise);
       });
 
       //wait for all the query requests to complete
-      Q.all(requests)
-      .then(function(listings) {
+      return Q.all(requests);
+    })
+    .then(function() {
 
-        //iterate over all the reuests
-        listings.forEach(function(listingArray) {
-
-          //ceate a new array of listings for this user
-          let newListings = listingArray.map(function (listings) {
-            return listings.name;
-          });
-
-          //iterate over the list of users to find a match
-          users.forEach(function(user) {
-            if(user.id === listingArray[0].user_id){
-              user.listings = newListings;
-            }
-          });
-        });
-
-        //map the output data as the spec document
-        let outputUserData = users.map(function (user) {
-          return {
-            id: user.id,
-            createdAt: user.created_at,
-            name: user.name,
-            count: user.count,
-            listings: user.listings
-          };
-        });
-
-        res.json(outputUserData);
+      //map the output data as the spec document
+      let outputUserData = users.map(function (user) {
+        return {
+          id: user.id,
+          createdAt: user.created_at,
+          name: user.name,
+          count: parseInt(user.count),
+          listings: user.listings
+        };
       });
+
+      res.json(outputUserData);
     })
     .catch(function (err) {
       return next({message: err.message});
