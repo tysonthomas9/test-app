@@ -36,7 +36,12 @@ router.get('/', function(req, res, next) {
 
         db.any('SELECT listings.name from applications AS app INNER JOIN listings ON app.listing_id=listings.id WHERE app.user_id=$1::int ORDER BY app.created_at DESC LIMIT 3;', [user.id])
         .then(function (listings) {
-          user.listings = listings;
+          let newListings = listings.map(function (listing) {
+            return listing.name;
+          });
+
+          user.listings = newListings;
+          
           deferred.resolve();
         })
         .catch(function (err) {
